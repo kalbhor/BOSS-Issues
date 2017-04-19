@@ -3,14 +3,13 @@ import sys
 import getpass
 from requests.auth import HTTPBasicAuth
 
-
 def getIssuesWithLabel(username, password, label='BOSS'):
     repos = requests.get('https://api.github.com/users/coding-blocks/repos', auth=HTTPBasicAuth(username, password)).json()
     bossIssues = []
     
     for repo in repos:
-        if int(repo['open_issues_count']) > 0:
-            issues = requests.get('{}/{}'.format(repo['url'], 'issues')).json()
+        if int(repo['open_issues_count']) > 0: # Check if repo has open issues
+            issues = requests.get('{}/{}'.format(repo['url'], 'issues')).json() # Get repo issues
     
             for issue in issues:
                 labels = [label['name'] for label in issue['labels']]
